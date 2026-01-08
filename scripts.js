@@ -1,15 +1,15 @@
-// 1. JSON Data: Using an object where keys are the emotions
-// This makes it easy for the backend team to add new moods later
+const API_BASE_URL = "http://localhost:8000";
+
 const moodData = {
-    "happy": { "playlist_name": "Happy Mix", "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1EVJSvZp5AOML2?si=yXy5WADBTGK8GUjntW6Ymg" },
-    "sad": { "playlist_name": "CRYING", "spotify_url": "https://open.spotify.com/playlist/1YLrmz057n156hHuiDv9AI" },
-    "motivated": { "label": "Motivation Mix", "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX1OY2Lp0bIPp" },
-    "emotionless": { "label": "Chill Focus", "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX4sWSpwq3LiO" },
-    "lonely": { "label": "Alone Again", "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DWVV27DiNWxkR" },
-    "in-love": { "label": "Love Pop", "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX50QitC6Oqtn" },
-    "heartbroken": { "label": "Broken Heart", "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX7gIoKXt0gmx" },
-    "excited": { "label": "Feel-Good Dance", "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX0BcQWzuB7ZO" },
-    "chill": { "label": "Chill Vibes", "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6" }
+    "happy": { "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1EVJSvZp5AOML2?si=yXy5WADBTGK8GUjntW6Ymg" },
+    "sad": { "spotify_url": "https://open.spotify.com/playlist/1YLrmz057n156hHuiDv9AI" },
+    "motivated": { "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX1OY2Lp0bIPp" },
+    "emotionless": { "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX4sWSpwq3LiO" },
+    "lonely": { "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DWVV27DiNWxkR" },
+    "in-love": { "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX50QitC6Oqtn" },
+    "heartbroken": { "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX7gIoKXt0gmx" },
+    "excited": { "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX0BcQWzuB7ZO" },
+    "chill": { "spotify_url": "https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6" }
 };
 
 // Ensure the script runs only after the HTML is fully loaded
@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const tagsContainer = document.getElementById('emotion-tags');
     const searchBar = document.querySelector('.search-bar');
     const cameraBtn = document.querySelector('.icon-btn'); // Moved inside for safety
+
+    
 
     // 2. Dynamic Tag Generation
     // Object.keys(moodData) gives us an array: ["happy", "sad", etc.]
@@ -84,4 +86,38 @@ searchBar.addEventListener('keypress', (e) => {
     cameraBtn.addEventListener('click', () => {
         alert("Camera feature coming soon! Your team can integrate the image recognition backend here.");
     });
+
+
+    const logo = document.getElementById('musical-logo');
+const letters = logo.querySelectorAll('span');
+
+// We use an AudioContext to generate clean, "serene" synth notes
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playNote(frequency) {
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.type = 'sine'; // Soft, calm sound
+    oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+    
+    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 1);
+}
+
+// Assign different musical notes to each letter
+const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88]; // C, D, E, F, G, A, B
+
+letters.forEach((char, index) => {
+    char.addEventListener('mouseenter', () => {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        playNote(notes[index]);
+    });
+});
 });
