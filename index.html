@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotune - Mood Selector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="logo">EMOTUNE</h1>
+
+        <p class="question">How are you feeling today?</p>
+
+        <div class="input-wrapper">
+            <input type="text" class="search-bar" placeholder="missing someone">
+            <button class="icon-btn" data-tooltip="Open camera for emotion recognition through facial expression">
+                <img src="camera.png" alt="Camera Icon" class="camera-png">
+            </button>
+        </div>
+
+        <div class="tags-container" id="emotion-tags">
+        </div>
+
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
